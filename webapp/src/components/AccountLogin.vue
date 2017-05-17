@@ -8,7 +8,7 @@
                 <input type="text" placeholder="请输入登录邮箱">
             </div>
             <div class="input-wrap">
-                <input type="text" placeholder="请输入密码">
+                <input type="text" placeholder="请输入登录密码">
             </div>
             <div class="login-msg hidden">
                 <p>账号不存在</p>
