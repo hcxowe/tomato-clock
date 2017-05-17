@@ -18,7 +18,7 @@
             </div>
 
             <div>
-                <router-link class="link-sigin" :to="{ name: 'AccountSigin'}">注册</router-link>
+                尚未注册? 点击<router-link class="link-sigin" :to="{ name: 'AccountSigin'}">注册</router-link>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
     }
 </script>
 
-<style lang="less" scope>
+<style lang="less" scoped>
     .wrap {
         padding: 50px;
         width: 100%;
@@ -60,7 +60,7 @@
         }
         
         .link-sigin {
-            color: #000;
+            color: lightcoral;
             font-size: 16px;
             outline: 0;
             text-decoration: none;
