@@ -5,19 +5,19 @@
 
             <p class="login-login">用户注册</p>
             <div class="input-wrap">
-                <input type="text" placeholder="请输入用户名称">
+                <input type="text" v-model="userName" placeholder="请输入用户名称">
             </div>
             <div class="input-wrap">
-                <input type="text" placeholder="请输入登录邮箱">
+                <input type="text" v-model="email" placeholder="请输入登录邮箱">
             </div>
             <div class="input-wrap">
-                <input type="text" placeholder="请输入登录密码">
+                <input type="password" v-model="password" placeholder="请输入登录密码">
             </div>
             <div class="login-msg hidden">
                 <p>注册失败</p>
             </div>
             <div class="input-wrap">
-                <button>注册</button>
+                <button @click="siginUser">注册</button>
             </div>
 
             <div>
@@ -28,11 +28,32 @@
 </template>
 
 <script>
+
+    import * as types from '../store/types.js'
+
     export default {
         name: 'AccountSigin',
         data () {
             return {
-
+                userName: '',
+                email: '',
+                password: ''
+            }
+        },
+        methods: {
+            siginUser: function() {
+                var self = this;
+                this.$store.dispatch(types.SIGINUSER, { 
+                    userName: this.userName, 
+                    email: this.email, 
+                    password: this.password
+                }).then(() => {
+                    alert(创建成功);
+                    self.$router.replace({ name: 'AccountLogin' });
+                }, (msg) => {
+                    alert(msg);
+                    self.$router.replace({ name: 'AccountLogin' });
+                })
             }
         }
     }
