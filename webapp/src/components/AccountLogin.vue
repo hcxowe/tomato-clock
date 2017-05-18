@@ -5,16 +5,16 @@
 
             <p class="login-login">用户登陆</p>
             <div class="input-wrap">
-                <input type="text" placeholder="请输入登录邮箱">
+                <input type="text" v-model="email" @input="onInput" @keyup.enter="onLogin" placeholder="请输入登录邮箱">
             </div>
             <div class="input-wrap">
-                <input type="text" placeholder="请输入登录密码">
+                <input type="password" v-model="password" @input="onInput" @keyup.enter="onLogin" placeholder="请输入登录密码">
             </div>
-            <div class="login-msg hidden">
-                <p>账号不存在</p>
+            <div class="login-msg" v-show="isError">
+                <p>{{ errorMsg }}</p>
             </div>
             <div class="input-wrap">
-                <button>登录</button>
+                <button @click="onLogin">登录<i v-show="isLoging" class="fa fa-spinner fa-spin fa-fw"></i></button>
             </div>
 
             <div>
@@ -25,11 +25,42 @@
 </template>
 
 <script>
+    import * as types from '../store/types.js'
+
     export default {
         name: 'AccountLogin',
         data () {
             return {
+                email: '',
+                password: '',
+                isLoging: false,
+                isError: false,
+                errorMsg: ''
+            }
+        },
+        methods: {
+            onLogin: function(evt) {
+                if (this.isLoging == true) {
+                    return;
+                }
 
+                this.isLoging = true;
+
+                var self = this;
+                this.$store.dispatch(types.LOGINUSER, {
+                    email: this.email,
+                    password: this.password
+                }).then(() => {
+                    self.$router.replace({ name: 'TomatoHome' });
+                    this.isLoging = false;
+                }, (msg) => {
+                    self.errorMsg = msg;
+                    self.isError = true;
+                    this.isLoging = false;
+                });
+            },
+            onInput: function() {
+                this.isError = false;
             }
         }
     }
@@ -71,7 +102,7 @@
         }
 
         .login-msg {
-            //height: 20px;
+            color: red;
         }
     }
 

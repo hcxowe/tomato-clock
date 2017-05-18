@@ -5,13 +5,13 @@
 
             <p class="login-login">用户注册</p>
             <div class="input-wrap">
-                <input type="text" v-model="userName" placeholder="请输入用户名称">
+                <input type="text" v-model="userName" @keyup="siginUser" placeholder="请输入用户名称">
             </div>
             <div class="input-wrap">
-                <input type="text" v-model="email" placeholder="请输入登录邮箱">
+                <input type="text" v-model="email" @keyup="siginUser" placeholder="请输入登录邮箱">
             </div>
             <div class="input-wrap">
-                <input type="password" v-model="password" placeholder="请输入登录密码">
+                <input type="password" v-model="password" @keyup="siginUser" placeholder="请输入登录密码">
             </div>
             <div class="login-msg hidden">
                 <p>注册失败</p>

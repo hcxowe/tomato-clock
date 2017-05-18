@@ -35,17 +35,30 @@ export const login = (email, password, callback) => {
     setTimeout( () => {
         let userList = data.userList;
         for (let i=0, size=data.userList.length; i < size; i++) {
-            if (userList[i].emai === emai && userList[i].password === password) {
-                callback({
-                    ret: 0,
-                    message: 'success',
-                    body: {
-                        userInfo: userList[i]
-                    }
-                });
+            if (userList[i].email === email) {
+                if (userList[i].password === password) {
+                    callback({
+                        ret: 0,
+                        message: 'success',
+                        body: {
+                            userInfo: userList[i]
+                        }
+                    });
+                }
+                else {
+                    callback({
+                        ret: 100,
+                        message: '密码输入错误'
+                    });
+                }
 
                 return;
             }
         }
+
+        callback({
+            ret: 404,
+            message: '账号不存在'
+        });
     }, delay);
 }
