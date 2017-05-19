@@ -8,17 +8,29 @@
             </div>
         </div>
 
-        
+        <div class="tomato-container">
+            <div class="main-content">
+                <div class="activity-list">
+                    <ActivityList></ActivityList>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+
+    import ActivityList from './ActivityList.vue'
+
     export default {
         name: 'TomatoHome',
         data () {
             return {
 
             }
+        },
+        components: {
+            ActivityList
         }
     }
 </script>
@@ -55,6 +67,22 @@
 
             border-radius: 50%;
             box-shadow: 0 0 5px -1px #000;
+        }
+    }
+
+    .tomato-container {
+        position: absolute;
+        top: 65px; left: 0; right: 0; bottom: 0;
+
+        .main-content {
+            margin: 0 auto;
+            width: 1200px;
+
+            .activity-list {
+                float: left;
+                width: 30%;
+                height: 100%;
+            }
         }
     }
 </style>
