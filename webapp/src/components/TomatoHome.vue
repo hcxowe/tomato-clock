@@ -13,6 +13,14 @@
                 <div class="activity-list">
                     <ActivityList></ActivityList>
                 </div>
+
+                <div class="today-tasks">
+                    <TodayTask></TodayTask>
+                </div>
+
+                <div class="current-task">
+                    <CurrentTask></CurrentTask>
+                </div>
             </div>
         </div>
     </div>
@@ -21,6 +29,8 @@
 <script>
 
     import ActivityList from './ActivityList.vue'
+    import TodayTask from './TodayTask.vue'
+    import CurrentTask from './CurrentTask.vue'
 
     export default {
         name: 'TomatoHome',
@@ -30,7 +40,9 @@
             }
         },
         components: {
-            ActivityList
+            ActivityList,
+            TodayTask,
+            CurrentTask
         }
     }
 </script>
@@ -77,8 +89,21 @@
         .main-content {
             margin: 0 auto;
             width: 1200px;
+            height: 100%;
 
             .activity-list {
+                float: left;
+                width: 30%;
+                height: 100%;
+            }
+
+            .today-tasks {
+                float: left;
+                width: 40%;
+                height: 100%;
+            }
+
+            .current-task {
                 float: left;
                 width: 30%;
                 height: 100%;
