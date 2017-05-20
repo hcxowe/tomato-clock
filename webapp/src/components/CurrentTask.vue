@@ -38,13 +38,22 @@
             onStart: function() {
                 this.isStart = !this.isStart;
                 this.timer = setInterval(() => {
+                    if (this.countTime <=0) {
+                        this.initStatus();
+                        return;
+                    }
+
                     this.countTime -= 1;
                 }, 1000);
             },
             onBreak: function() {
-                this.isStart = !this.isStart;
+                this.initStatus();
+            },
+            initStatus: function() {
                 clearInterval(this.timer);
                 this.countTime = 1500;
+                this.isStart = false;
+                this.timer = null;
             }
         }
     }
