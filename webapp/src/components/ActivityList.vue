@@ -3,22 +3,22 @@
         <p class="activity-title">活动清单</p>
         
         <div class="input-wrap">
-            <input type="text" placeholder="输入项目名称, 输入enter确认添加">
+            <input type="text" placeholder="输入项目名称, 输入enter确认添加" @keyup.enter="onAddProject">
         </div>
 
         <div class="activity-list">
-            <div class="activity-prject">
-                <a href="javascript:void(0);" @click="show = !show" class="project-title">
-                    日常任务
-                    <i class="fa fa-angle-down pull-right" :style="{ transform: 'rotate('+ (show ? 180 : 0) +'deg)' }" aria-hidden="true"></i>
+            <div class="activity-prject" v-for="activity in activityList">
+                <a href="javascript:void(0);" @click="activity.unfold = !activity.unfold" class="project-title">
+                    {{ activity.description }}
+                    <i class="fa fa-angle-down pull-right" :style="{ transform: 'rotate('+ (activity.unfold ? 180 : 0) +'deg)' }" aria-hidden="true"></i>
                 </a>
                 <slide-transition>
-                    <ul v-show="show">
-                        <li v-for="item in subList">
-                            <a href="javascript:void(0);">{{ item }}</a>
+                    <ul v-show="activity.unfold">
+                        <li v-for="item in activity.taskList">
+                            <a href="javascript:void(0);">{{ item.description }}</a>
                         </li>
                         
-                        <input type="text" :style="{ 'font-size': '14px' }" @keyup.enter="onTaskCreate" placeholder="输入具体任务, 输入enter确认添加">
+                        <input type="text" :style="{ 'font-size': '14px' }" @keyup.enter="onTaskCreate($event, activity.id)" placeholder="输入具体任务, 输入enter确认添加">
                     </ul>
                 </slide-transition>
             </div>
@@ -31,22 +31,60 @@
         name: 'ActivityList',
         data () {
             return {
-                show: false,
-
-                subList: [
-                    "一体化指挥管理平台任务",
-                    "一体化指挥管理平台任务",
-                    "一体化指挥管理平台任务",
-                    "一体化指挥管理平台任务"
+                activityList: [
+                    {
+                        id: 0,
+                        description: '开发个人博客站点',
+                        unfold: true,
+                        taskList: [
+                            {
+                                taskId: 11,
+                                description: '准备工作-vue官网进行对vue的初步学习'
+                            },
+                            {
+                                taskId: 12,
+                                description: '准备工作-vue-router的学习'
+                            },
+                            {
+                                taskId: 12,
+                                description: '准备工作-vuex的学习'
+                            }
+                        ]
+                    }
                 ]
             }
         },
         methods: {
-            onTaskCreate: function(evt) {
+            onAddProject: function(evt) {
+                let value = evt.target.value;
+
+                if (value.length === 0) {
+                    return;
+                }
+
+                let len = this.activityList.length;
+                this.activityList.push({
+                    id: len,
+                    description: value,
+                    unfold: false,
+                    taskList: []
+                });
+
+                evt.target.value = '';
+            },
+            onTaskCreate: function(evt, id) {
                 if (evt.target.value) {
-                    this.subList.push(evt.target.value);
-                    evt.target.value = '';
-                    evt.target.parentNode.style.height = 'auto';
+                    for (let i=0, len=this.activityList.length; i<len; i++) {
+                        if (id === this.activityList[i].id) {
+                            this.activityList[i].taskList.push({
+                                id: len,
+                                description: evt.target.value
+                            });
+
+                            evt.target.value = '';
+                            evt.target.parentNode.style.height = 'auto';        
+                        }
+                    }
                 }
             }
         },
