@@ -13,6 +13,28 @@
                 <button class="btn-cancle" v-show="isStart" @click="onBreak">取消</button>
             </div>
         </div>
+
+        <div class="record-container">
+            <ul>
+                <li v-for="item in potomaList">
+                    <p class="year-month">
+                        {{ item.year }}年
+                        <br>
+                        {{ item.month }}月{{ item.day }}日
+                    </p>
+
+                    <label class="time-interval">{{ item.startTime }} - {{ item.endTime }}</label>
+
+                    <span class="status-span" :style="{ color: item.status == 1 ? 'green' : 'red' }">{{ item.status == 1 ? '完成' : '打断' }}</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="statistics-container">
+            <p>
+                总计 <span class="total">{{ potomaList.length }}</span> 个番茄钟, 完成 <span class="finish"> {{ finishCount }} </span> 个, 打断 <span class="break"> {{ breakCount }} </span> 个 
+            </p>
+        </div>
     </div>
 </template>
 
@@ -23,7 +45,25 @@
             return {
                 isStart: false,
                 countTime: 1500,
-                timer: null
+                timer: null,
+                potomaList: [
+                    {
+                        year: '2017',
+                        month: '05',
+                        day: '22',
+                        startTime: '17:25',
+                        endTime: '17:50',
+                        status: 1 // 1完成 or 0打断
+                    },
+                    {
+                        year: '2017',
+                        month: '05',
+                        day: '22',
+                        startTime: '16:25',
+                        endTime: '16:50',
+                        status: 0 // 1完成 or 0打断
+                    }
+                ]
             }
         },
         computed: {
@@ -32,6 +72,16 @@
                 var s = this.countTime % 60;
 
                 return (m < 10 ? ('0' + m) : m) + ':' + (s < 10 ? ('0' + s) : s);
+            },
+            finishCount: function() {
+                return this.potomaList.filter(function(value) {
+                    return value.status === 1;
+                }).length;
+            },
+            breakCount: function() {
+                return this.potomaList.filter(function(value) {
+                    return value.status === 0;
+                }).length;
             }
         },
         methods: {
@@ -61,6 +111,7 @@
 
 <style lang="less" scoped>
     .wrap {
+        position: relative;
         width: 100%;
         height: 100%;
         border: 1px solid #ccc;
@@ -82,6 +133,7 @@
                 font-size: 24px;
                 font-weight: bold;
                 text-align: center;
+                z-index: 9;
             }
 
             .count-down-slider {
@@ -89,6 +141,7 @@
                 top: 0; left: 0;
                 background-color: #ccc;
                 height: 100%;
+                z-index: 0;
             }
         }
 
@@ -119,8 +172,74 @@
         }
     }
 
-    
+    .record-container {
+        position: absolute;
+        top: 96px; left: 0; right: 0; bottom: 40px;
+        padding: 5px;
 
+        ul {
+            list-style: none;
+            padding: 0;
+
+            li {
+                border: 1px solid #ccc;
+                margin-bottom: 5px;
+            }
+        }
+
+        .year-month {
+            display: inline-block;
+            background-color: #ccc;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            padding: 5px;
+            font-weight: bold;
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        .time-interval {
+            margin: 0;
+            font-size: 20px;
+            margin-left: 20px;
+            vertical-align: middle;
+        }
+
+        .status-span {
+            margin-left: 20px;
+            color: green;
+            font-size: 16px;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+    }
+
+    .statistics-container {
+        position: absolute;
+        left: 0; right: 0; bottom: 0;
+        height: 40px;
+        border-top: 1px solid #ccc;
+        line-height: 40px;
+        text-align: center;
+
+        .total {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .finish {
+            color: green;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .break {
+            color: red;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
    
 
     button {
