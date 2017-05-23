@@ -18,7 +18,7 @@
             </div>
 
             <div>
-                尚未注册? 点击<router-link class="link-sigin" :to="{ name: 'AccountSigin'}">注册</router-link>
+                尚未注册? 点击<router-link class="link-sigin" :to="{ name: 'AccountSigin' }"> 注册</router-link>
             </div>
         </div>
     </div>

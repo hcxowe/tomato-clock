@@ -5,23 +5,23 @@
 
             <p class="login-login">用户注册</p>
             <div class="input-wrap">
-                <input type="text" v-model="userName" @keyup="siginUser" placeholder="请输入用户名称">
+                <input type="text" v-model="userName" @keyup.enter="siginUser" placeholder="请输入用户名称">
             </div>
             <div class="input-wrap">
-                <input type="text" v-model="email" @keyup="siginUser" placeholder="请输入登录邮箱">
+                <input type="text" v-model="email" @keyup.enter="siginUser" placeholder="请输入登录邮箱">
             </div>
             <div class="input-wrap">
-                <input type="password" v-model="password" @keyup="siginUser" placeholder="请输入登录密码">
+                <input type="password" v-model="password" @keyup.enter="siginUser" placeholder="请输入登录密码">
             </div>
             <div class="login-msg hidden">
                 <p>注册失败</p>
             </div>
             <div class="input-wrap">
-                <button @click="siginUser">注册</button>
+                <button @click="siginUser">注册<i v-show="isSiging" class="fa fa-spinner fa-spin fa-fw"></i></button>
             </div>
 
             <div>
-                已有账号? 点击<router-link class="link-login" :to="{ name: 'AccountLogin'}">登录</router-link>
+                已有账号? 点击<router-link class="link-login" :to="{ name: 'AccountLogin'}"> 登录</router-link>
             </div>
         </div>
     </div>
@@ -37,22 +37,26 @@
             return {
                 userName: '',
                 email: '',
-                password: ''
+                password: '',
+                isSiging: false
             }
         },
         methods: {
             siginUser: function() {
                 var self = this;
+                this.isSiging = true;
                 this.$store.dispatch(types.SIGINUSER, { 
                     userName: this.userName, 
                     email: this.email, 
                     password: this.password
                 }).then(() => {
-                    alert(创建成功);
+                    alert('创建成功');
                     self.$router.replace({ name: 'AccountLogin' });
+                    self.isSiging = false;
                 }, (msg) => {
                     alert(msg);
                     self.$router.replace({ name: 'AccountLogin' });
+                    self.isSiging = false;
                 })
             }
         }
