@@ -27,7 +27,7 @@
 </template>
 
 <script>
-
+    import * as types from '../store/types.js'
     import ActivityList from './ActivityList.vue'
     import TodayTask from './TodayTask.vue'
     import CurrentTask from './CurrentTask.vue'
@@ -43,6 +43,13 @@
             ActivityList,
             TodayTask,
             CurrentTask
+        },
+        created: function() {
+            this.$store.dispatch(types.GETACTIVITYLIST, { userID: this.$store.state.userInfo.userID }).then(()=>{
+                
+            }, (msg) => {
+                alert(msg);
+            });
         }
     }
 </script>

@@ -27,5 +27,19 @@ export default {
                 resolve();
             })
         })
+    },
+
+    [types.GETACTIVITYLIST]: ({ commit }, { userID }) => {
+        return new Promise((resolve, reject) => {
+            api.getActivityList(userID, ({ ret, message, body }) => {
+                if (ret != 0) {
+                    reject(message);
+                    return;
+                }
+
+                commit(types.GETACTIVITYLIST, body.activity);
+                resolve();
+            })
+        })
     }
 }

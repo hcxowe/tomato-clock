@@ -27,31 +27,45 @@
 </template>
 
 <script>
+
+    import * as types from '../store/types.js'
+
     export default {
         name: 'ActivityList',
         data () {
             return {
-                activityList: [
-                    {
-                        id: 0,
-                        description: '开发个人博客站点',
-                        unfold: true,
-                        taskList: [
-                            {
-                                taskId: 11,
-                                description: '准备工作-vue官网进行对vue的初步学习'
-                            },
-                            {
-                                taskId: 12,
-                                description: '准备工作-vue-router的学习'
-                            },
-                            {
-                                taskId: 12,
-                                description: '准备工作-vuex的学习'
-                            }
-                        ]
-                    }
-                ]
+                // activityList: [
+                //     {
+                //         id: 0,
+                //         description: '开发个人博客站点',
+                //         unfold: true,
+                //         taskList: [
+                //             {
+                //                 taskId: 11,
+                //                 description: '准备工作-vue官网进行对vue的初步学习'
+                //             },
+                //             {
+                //                 taskId: 12,
+                //                 description: '准备工作-vue-router的学习'
+                //             },
+                //             {
+                //                 taskId: 12,
+                //                 description: '准备工作-vuex的学习'
+                //             }
+                //         ]
+                //     }
+                // ]
+            }
+        },
+        mounted: function() {
+            
+        },
+        computed: {
+            activityList: function() {
+                console.log(this.$store.state.userInfo);
+                return this.$store.state.userInfo.activity.forEach(function(project, index) {
+                     project.unfold = index == 0;
+                });
             }
         },
         methods: {

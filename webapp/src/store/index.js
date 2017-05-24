@@ -9,9 +9,9 @@ Vue.use(Vuex);
 
 const state = {
     userInfo: {
-        userID: null,
-        userName: '',
-        email: ''
+        userID: 0,
+        userName: 'hcxowe',
+        email: 'hcxowe@126.com'
     }
 }
 

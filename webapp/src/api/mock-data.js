@@ -1,17 +1,17 @@
 export const userList = [
     {
         userID: 0,
-        userName: 'hcxowe',
+        userdescription: 'hcxowe',
         email: 'hcxowe@126.com',
         password: '111111',
         activity: [
             {
                 projectID: '000000',
-                name: '日常任务',
-                children: [
+                description: '日常任务',
+                taskList: [
                     {
                         taskID: '000000-1',
-                        name: '学习ES6之Promise',
+                        description: '学习ES6之Promise',
                         status: 1, // 0未开始，1处理中，2完成
                         createTime: '2017-05-01 10:10:10',
                         handleTime: '2017-05-02 10:15:10',
@@ -37,7 +37,7 @@ export const userList = [
                     },
                     {
                         taskID: '000000-1',
-                        name: '学习Http',
+                        description: '学习Http',
                         status: 0, // 0未开始，1处理中，2完成
                         createTime: '2017-05-01 10:10:10',
                         handleTime: '',
@@ -47,11 +47,11 @@ export const userList = [
             },
             {
                 projectID: '111111',
-                name: '开发个人博客站点',
-                children: [
+                description: '开发个人博客站点',
+                taskList: [
                     {
                         taskID: '111111-1',
-                        name: '学习Vue',
+                        description: '学习Vue',
                         status: 2,
                         createTime: '2017-05-01 10:10:10',
                         handleTime: '2017-05-02 15:10:10',
@@ -59,7 +59,7 @@ export const userList = [
                     },
                     {
                         taskID: '111111-2',
-                        name: '学习vue-router',
+                        description: '学习vue-router',
                         status: 1,
                         createTime: '2017-05-01 10:10:10',
                         handleTime: '2017-05-12 15:10:10',
@@ -85,7 +85,7 @@ export const userList = [
                     },
                     {
                         taskID: '111111-3',
-                        name: '学习Vuex',
+                        description: '学习Vuex',
                         status: 0,
                         createTime: '2017-05-21 10:10:10',
                         handleTime: '',
@@ -98,7 +98,7 @@ export const userList = [
             {
                 projectID: '000000',
                 taskID: '000000-1',
-                name: '学习ES6之Promise',
+                description: '学习ES6之Promise',
                 status: 0,
                 createTime: '2017-05-01 10:10:10',
                 handleTime: '2017-05-02 10:15:10',
@@ -125,7 +125,7 @@ export const userList = [
             {
                 projectID: '111111',
                 taskID: '111111-1',
-                name: '学习vue-router',
+                description: '学习vue-router',
                 status: 0,
                 createTime: '2017-05-01 10:10:10',
                 handleTime: '2017-05-12 15:10:10',

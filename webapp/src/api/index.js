@@ -21,7 +21,9 @@ export const siginUser = (userName, email, password, callback) => {
             userID: userList.length,
             userName,
             email,
-            password
+            password,
+            activity: [],
+            todoList: []
         });
 
         callback({
@@ -41,7 +43,11 @@ export const login = (email, password, callback) => {
                         ret: 0,
                         message: 'success',
                         body: {
-                            userInfo: userList[i]
+                            userInfo: {
+                                userID: userList[i].userID,
+                                userName: userList[i].userName,
+                                email: userList[i].email,
+                            }
                         }
                     });
                 }
@@ -59,6 +65,33 @@ export const login = (email, password, callback) => {
         callback({
             ret: 404,
             message: '账号不存在'
+        });
+    }, delay);
+}
+
+export const getActivityList = (userID, callback) => {
+    setTimeout( () => {
+        let userList = data.userList;
+        for (let i=0, size=userList.length; i < size; i++) {
+            if (userList[i].userID === userID) {
+                callback({
+                    ret: 0,
+                    message: 'success',
+                    body: {
+                        activity: userList[i].activity
+                    }
+                });
+
+                return;
+            }
+        }
+
+        callback({
+            ret: -1,
+            message: 'not find activity',
+            body: {
+                activity: []
+            }
         });
     }, delay);
 }
