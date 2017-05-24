@@ -46,7 +46,6 @@
         },
         created: function() {
             this.$store.dispatch(types.GETACTIVITYLIST, { userID: this.$store.state.userInfo.userID }).then(()=>{
-                
             }, (msg) => {
                 alert(msg);
             });

@@ -7,24 +7,24 @@
         </div>
 
         <div class="activity-list">
-            <div class="activity-prject" v-for="activity in activityList">
-                <a href="javascript:void(0);" @click="activity.unfold = !activity.unfold" class="project-title">
+            <div class="activity-prject" v-for="(activity, index) in activityList">
+                <a href="javascript:void(0);" @click="onProjectClick(index);" class="project-title">
                     {{ activity.description }}
-                    <i class="fa fa-angle-down pull-right" :style="{ transform: 'rotate('+ (activity.unfold ? 180 : 0) +'deg)' }" aria-hidden="true"></i>
+                    <i class="fa fa-angle-down pull-right" :style="{ transform: 'rotate('+ (expands[index] ? 180 : 0) +'deg)' }" aria-hidden="true"></i>
                 </a>
                 <slide-transition>
-                    <ul v-show="activity.unfold">
+                    <ul v-show="expands[index]">
                         <li v-for="item in activity.taskList">
                             <a href="javascript:void(0);">{{ item.description }}</a>
                         </li>
                         
-                        <input type="text" :style="{ 'font-size': '14px' }" @keyup.enter="onTaskCreate($event, activity.id)" placeholder="输入具体任务, 输入enter确认添加">
+                        <input type="text" :style="{ 'font-size': '14px' }" @keyup.enter="onTaskCreate($event, activity.projectID)" placeholder="输入具体任务, 输入enter确认添加">
                     </ul>
                 </slide-transition>
             </div>
         </div>
     </div>
-</template>
+</template> 
 
 <script>
 
@@ -34,41 +34,24 @@
         name: 'ActivityList',
         data () {
             return {
-                // activityList: [
-                //     {
-                //         id: 0,
-                //         description: '开发个人博客站点',
-                //         unfold: true,
-                //         taskList: [
-                //             {
-                //                 taskId: 11,
-                //                 description: '准备工作-vue官网进行对vue的初步学习'
-                //             },
-                //             {
-                //                 taskId: 12,
-                //                 description: '准备工作-vue-router的学习'
-                //             },
-                //             {
-                //                 taskId: 12,
-                //                 description: '准备工作-vuex的学习'
-                //             }
-                //         ]
-                //     }
-                // ]
+                expands: []
             }
-        },
-        mounted: function() {
-            
         },
         computed: {
             activityList: function() {
-                console.log(this.$store.state.userInfo);
-                return this.$store.state.userInfo.activity.forEach(function(project, index) {
-                     project.unfold = index == 0;
-                });
+                this.$store.state.userInfo.activity.forEach(function(item, index) {
+                    if (typeof this.expands[index] === 'undefined') {
+                        this.expands.push(false);
+                    }
+                }, this);
+
+                return this.$store.state.userInfo.activity;
             }
         },
         methods: {
+            onProjectClick: function(index) {
+                this.$set(this.expands, index, !this.expands[index]);
+            },
             onAddProject: function(evt) {
                 let value = evt.target.value;
 
@@ -203,6 +186,7 @@
         .activity-prject {
             border: 1px solid #ccc;
             position: relative;
+            margin-bottom: 2px;
 
             .project-title {
                 display: block;

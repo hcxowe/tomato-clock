@@ -11,7 +11,8 @@ const state = {
     userInfo: {
         userID: 0,
         userName: 'hcxowe',
-        email: 'hcxowe@126.com'
+        email: 'hcxowe@126.com',
+        activity: []
     }
 }
 
