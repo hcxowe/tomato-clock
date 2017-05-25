@@ -1,4 +1,5 @@
 import * as data from './mock-data'
+import moment from 'moment'
 
 const delay = 1000;
 
@@ -91,6 +92,118 @@ export const getActivityList = (userID, callback) => {
             message: 'not find activity',
             body: {
                 activity: []
+            }
+        });
+    }, delay);
+}
+
+export const addProject = (userID, description, callback) => {
+    setTimeout(() => {
+        let userList = data.userList;
+
+        for (let i=0, size=userList.length; i < size; i++) {
+            if (userList[i].userID === userID) {
+                if (userList[i].activity.some(function(item) {return item.description == description;})) {
+                    callback({
+                        ret: -1,
+                        message: '项目已经存在'
+                    });
+
+                    return;    
+                }else {
+
+                    let project = {
+                        projectID: new Date().getTime(),
+                        description: description,
+                        taskList: []
+                    };
+
+                    userList[i].activity.push(project);
+
+                    callback({
+                        ret: 0,
+                        messsage: 'success',
+                        body: {
+                            project
+                        }
+                    });
+
+                    return;
+                }
+            }
+        }
+
+        callback({
+            ret: -1,
+            message: '未找到用户, 请重新登录!'
+        });
+    }, delay);
+}
+
+export const addTask = (userID, projectID, description, callback) => {
+    setTimeout(() => {
+        let userList = data.userList;
+        let activity, taskList;
+
+        for (let i=0, size=userList.length; i < size; i++) {
+            if (userList[i].userID === userID) {
+                activity = userList[i].activity;                
+                break;
+            }
+        }
+
+        if (!activity) {
+            callback({
+                ret: -1,
+                message: '未找到用户, 请重新登录!'
+            });
+
+            return;
+        }
+
+        for (let j=0, len=activity.length; j < len; j++) {
+            if (activity[j].projectID === projectID) {
+                taskList = activity[j].taskList;                
+                break;
+            }
+        }
+
+        if (!taskList) {
+            callback({
+                ret: -1,
+                message: '未找到项目, 请刷新页面重试!'
+            });
+
+            return;
+        }
+
+        for (let k=0, count=taskList.length; k < count; k++) {
+            if (taskList[k].description === description) {
+                callback({
+                    ret: -1,
+                    message: '该任务已存在'
+                });
+
+                return;
+            }
+        }
+
+        let task = {
+            taskID: moment().format('x'),
+            description: description,
+            createTime: moment().format('YYYY-MM-DD hh:mm:ss'),
+            handleTime: '',
+            finishTime: '',
+            potomaTima: []
+        }
+
+        taskList.push(task);
+
+        callback({
+            ret: 0,
+            message: 'success',
+            body: {
+                task
             }
         });
     }, delay);

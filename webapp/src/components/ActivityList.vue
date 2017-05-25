@@ -59,30 +59,25 @@
                     return;
                 }
 
-                let len = this.activityList.length;
-                this.activityList.push({
-                    id: len,
-                    description: value,
-                    unfold: false,
-                    taskList: []
+                this.$store.dispatch(types.ADDPROJECT, { userID: this.$store.state.userInfo.userID, description: value }).then(() => {
+                    evt.target.value = '';
+                }, (msg) => {
+                    alert(msg);
                 });
-
-                evt.target.value = '';
             },
-            onTaskCreate: function(evt, id) {
-                if (evt.target.value) {
-                    for (let i=0, len=this.activityList.length; i<len; i++) {
-                        if (id === this.activityList[i].id) {
-                            this.activityList[i].taskList.push({
-                                id: len,
-                                description: evt.target.value
-                            });
+            onTaskCreate: function(evt, projectID) {
+                let value = evt.target.value;
 
-                            evt.target.value = '';
-                            evt.target.parentNode.style.height = 'auto';        
-                        }
-                    }
+                if (!value) {
+                    return;
                 }
+
+                this.$store.dispatch(types.ADDTASK, { userID: this.$store.state.userInfo.userID, projectID, description: value }).then(() => {
+                    evt.target.value = '';
+                    evt.target.parentNode.style.height = 'auto';
+                }, (msg) => {
+                    alert(msg);
+                });
             }
         },
         components: {

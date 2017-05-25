@@ -41,5 +41,34 @@ export default {
                 resolve();
             })
         })
+    },
+
+    [types.ADDPROJECT]: ({ commit }, { userID, description }) => {
+        return new Promise((resolve, reject) => {
+            api.addProject(userID, description, ({ ret, message, body}) => {
+                if (ret != 0) {
+                    reject(message);
+                    return;
+                }
+
+                commit(types.ADDPROJECT, body.project);
+                resolve();
+            });
+        })
+    },
+
+    [types.ADDTASK]: ({ commit }, { userID, projectID, description }) => {
+        
+        return new Promise((resolve, reject) => {
+            api.addTask(userID, projectID, description, ({ ret, message, body }) => {
+                if (ret != 0) {
+                    reject(message);
+                    return;
+                }
+
+                commit(types.ADDTASK, { projectID, task: body.task });
+                resolve();
+            })
+        })
     }
 }
