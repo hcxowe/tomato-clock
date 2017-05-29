@@ -3,11 +3,15 @@
         <p class="today-title">今日任务</p>
 
         <div class="today-list">
-            <ul v-if="type == 'finish'">
-                <li><a class="text-finish" href="javacript:void(0);">一个已完成的任务</a></li>
+            <ul v-show="type == 'unfinished'">
+                <li v-for="task in unfinishList">
+                    <button class="btn btn-danger">撤销</button>
+                    <a href="javacript:void(0);">{{ task.description }}</a>
+                    <button class="btn btn-success pull-right">完成</button>
+                </li>
             </ul>
-            <ul v-else-if="type == 'unfinished'">
-                <li><a href="javacript:void(0);">一个未完成的任务</a></li>
+            <ul v-if="type == 'finish'">
+                <li v-for="task in finishList"><a class="text-finish" href="javacript:void(0);">{{ task.description }}</a></li>
             </ul>
         </div>
 
@@ -24,6 +28,46 @@
         data () {
             return {
                 type: 'unfinished'
+            }
+        },
+        computed: {
+            finishList: function() {
+                let todayTask = [];
+                let activity = this.$store.state.userInfo.activity;
+
+                if (activity.length === 0) {
+                    return [];
+                }
+
+                activity.forEach(function(item) {
+                    if (item.taskList) {
+                        todayTask = todayTask.concat(item.taskList.filter(function(value) {
+                            return value.status == 2 && value.complete == true;   
+                        }))
+                    }
+                }, this);
+
+                return todayTask;
+            },
+            unfinishList: function() {
+                let todayTask = [];
+                let activity = this.$store.state.userInfo.activity;
+
+                if (activity.length === 0) {
+                    return [];
+                }
+
+                activity.forEach(function(item) {
+                    if (item.taskList) {
+                        todayTask = todayTask.concat(item.taskList.filter(function(value) {
+                            return value.status == 1;   
+                        }));
+
+
+                    }   
+                }, this);
+
+                return todayTask;
             }
         }
     }
@@ -58,21 +102,27 @@
             padding: 0;
 
             li {
+                padding: 5px;
                 width: 100%;
                 border-bottom: 1px solid #ccc;
+
+                &:hover {
+                    background-color: #E6E6E6;
+                }
             }
             
             a {
                 display: inline-block;
-                padding: 5px;
-                width: 100%;
+                width: 350px;
                 color: #000;
+                line-height: 40px;
                 text-align: center;
                 text-decoration: none;
+            }
 
-                &:hover {
-                    color: lightcoral;
-                }
+            button {
+                
+                height: 40px;
             }
         }
 
