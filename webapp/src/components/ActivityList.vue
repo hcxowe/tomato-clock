@@ -16,6 +16,7 @@
                     <ul v-show="expands[index]">
                         <li v-for="item in activity.taskList">
                             <a href="javascript:void(0);">{{ item.description }}</a>
+                            <button class="btn btn-warning pull-right">执行</button>
                         </li>
                         
                         <input type="text" :style="{ 'font-size': '14px' }" @keyup.enter="onTaskCreate($event, activity.projectID)" placeholder="输入具体任务, 输入enter确认添加">
@@ -215,15 +216,31 @@
 
                 li {
                     padding: 5px;
+                    border-bottom: 1px solid #ccc;
+
+                    &:hover {
+                        background-color: #E6E6E6;
+                    }
 
                     a {
-                        display: block;
+                        display: inline-block;
+                        width: 285px;
+                        line-height: 40px;
                         text-decoration: none;
                         color: #000;
                         text-align: center;
+                    }
+
+                    button {
+                        width: 54px;
+                        color: #fff;
+                        background-color: #f0ad4e;
+                        border-color: #eea236;
 
                         &:hover {
-                            color: lightcoral;
+                            color: #fff;
+                            background-color: #ec971f;
+                            border-color: #d58512;
                         }
                     }
                 }
