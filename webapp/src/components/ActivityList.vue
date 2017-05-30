@@ -14,7 +14,7 @@
                 </a>
                 <slide-transition>
                     <ul v-show="expands[index]">
-                        <li v-for="item in activity.taskList">
+                        <li v-for="item in activity.taskList" v-if="item.status==0">
                             <a href="javascript:void(0);">{{ item.description }}</a>
                             <button @click="onExcuteTask(activity.projectID, item.taskID)" class="btn btn-warning pull-right">执行</button>
                         </li>
@@ -87,11 +87,12 @@
         },
         components: {
             'slide-transition': {
-                template:   '<transition name="slide-list"\
-                                v-on:before-enter="beforeEnter"\
-                                v-on:enter="enter"\
-                                v-on:leave="leave">\
-                                <slot></slot>\
+                template:   '<transition name="slide-list" \
+                                v-on:before-enter="beforeEnter" \
+                                v-on:enter="enter" \
+                                v-on:after-enter="afterEnter" \
+                                v-on:leave="leave"> \
+                                <slot></slot> \
                             </transition>',
                 data: function() {
                     return {
@@ -109,9 +110,12 @@
                         el.style.height = '0px';
                         var f = document.body.offsetHeight;
                         el.style.height = height + 'px';
+
+                        done();
                     },
                     afterEnter: function(el) {
                         console.log('afterEnter');
+                        setTimeout(()=>{el.style.height = 'auto'}, 600);
                     },
                     beforeLeave: function(el) {
                         console.log('beforeLeave');

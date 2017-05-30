@@ -29,7 +29,6 @@ export default {
     },
 
     [types.EXCUTETASK]: (state, { projectID, taskID }) => {
-        console.log(`mutations - excuteTask: ${projectID}-${taskID}`);
         for (let i=0,len=state.userInfo.activity.length; i<len; i++) {
             if (state.userInfo.activity[i].projectID == projectID) {
                 var taskList = state.userInfo.activity[i].taskList;
@@ -37,7 +36,23 @@ export default {
                     for (let j=0, size=taskList.length; j<size; j++) {
                         if (taskList[j].taskID == taskID) {
                             taskList[j].status = 1;
+                            return;
                         }
+                    }
+                }
+            }
+        }
+    },
+
+    [types.BACKOUTTASK]: (state, { taskID }) => {
+        var taskList = null;
+        for (let i=0,len=state.userInfo.activity.length; i<len; i++) {
+            taskList = state.userInfo.activity[i].taskList;
+            if (typeof taskList != 'undefined') {
+                for (let j=0, size=taskList.length; j<size; j++) {
+                    if (taskList[j].taskID == taskID) {
+                        taskList[j].status = 0;
+                        return;
                     }
                 }
             }

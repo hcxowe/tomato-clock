@@ -215,3 +215,10 @@ export const excuteTask = (projectID, taskID, callback) => {
         message: 'success'
     });
 }
+
+export const backoutTask = (taskID, callback) => {
+    callback({
+        ret: 0,
+        message: 'success'
+    });
+}

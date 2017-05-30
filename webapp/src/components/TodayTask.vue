@@ -5,7 +5,7 @@
         <div class="today-list">
             <ul v-show="type == 'unfinished'">
                 <li v-for="task in unfinishList">
-                    <button class="btn btn-danger">撤销</button>
+                    <button @click="onBackoutTask(task.taskID)" class="btn btn-danger">撤销</button>
                     <a href="javacript:void(0);">{{ task.description }}</a>
                     <button class="btn btn-success pull-right">完成</button>
                 </li>
@@ -23,11 +23,13 @@
 </template>
 
 <script>
+    import * as types from '../store/types.js'
+
     export default {
         name: 'TodayTask',
         data () {
             return {
-                type: 'unfinished'
+                type: 'unfinished' 
             }
         },
         computed: {
@@ -68,6 +70,12 @@
                 }, this);
 
                 return todayTask;
+            }
+        },
+
+        methods: {
+            onBackoutTask: function(taskID) {
+                this.$store.dispatch(types.BACKOUTTASK, { taskID });
             }
         }
     }

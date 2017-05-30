@@ -84,5 +84,19 @@ export default {
                 resolve();
             })
         })
+    },
+
+    [types.BACKOUTTASK]: ({ commit }, { taskID }) => {
+        return new Promise((resolve, reject) => {
+            api.backoutTask(taskID, ({ ret, message }) => {
+                if (ret != 0) {
+                    reject(message);
+                    return;
+                }
+
+                commit(types.BACKOUTTASK, { taskID });
+                resolve();
+            })
+        })
     }
 }
