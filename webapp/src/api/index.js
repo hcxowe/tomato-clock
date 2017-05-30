@@ -208,3 +208,10 @@ export const addTask = (userID, projectID, description, callback) => {
         });
     }, delay);
 }
+
+export const excuteTask = (projectID, taskID, callback) => {
+    callback({
+        ret: 0,
+        message: 'success'
+    });
+}

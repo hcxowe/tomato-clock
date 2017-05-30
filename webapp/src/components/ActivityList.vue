@@ -16,7 +16,7 @@
                     <ul v-show="expands[index]">
                         <li v-for="item in activity.taskList">
                             <a href="javascript:void(0);">{{ item.description }}</a>
-                            <button class="btn btn-warning pull-right">执行</button>
+                            <button @click="onExcuteTask(activity.projectID, item.taskID)" class="btn btn-warning pull-right">执行</button>
                         </li>
                         
                         <input type="text" :style="{ 'font-size': '14px' }" @keyup.enter="onTaskCreate($event, activity.projectID)" placeholder="输入具体任务, 输入enter确认添加">
@@ -79,6 +79,10 @@
                 }, (msg) => {
                     alert(msg);
                 });
+            },
+            onExcuteTask: function(projectID, taskID) {
+                console.log(`projectID: ${projectID}, taskID: ${taskID}`);
+                this.$store.dispatch(types.EXCUTETASK, {projectID, taskID});
             }
         },
         components: {

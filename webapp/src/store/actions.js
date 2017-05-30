@@ -70,5 +70,19 @@ export default {
                 resolve();
             })
         })
+    },
+
+    [types.EXCUTETASK]: ({ commit }, { projectID, taskID }) => {
+        return new Promise((resolve, reject) => {
+            api.excuteTask(projectID, taskID, ({ ret, message }) => {
+                if (ret != 0) {
+                    reject(message);
+                    return;
+                }
+
+                commit(types.EXCUTETASK, { projectID, taskID });
+                resolve();
+            })
+        })
     }
 }
