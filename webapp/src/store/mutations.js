@@ -57,5 +57,21 @@ export default {
                 }
             }
         }
+    },
+
+    [types.FINISHTASK]: (state, { taskID }) => {
+        var taskList = null;
+        for (let i=0,len=state.userInfo.activity.length; i<len; i++) {
+            taskList = state.userInfo.activity[i].taskList;
+            if (typeof taskList != 'undefined') {
+                for (let j=0, size=taskList.length; j<size; j++) {
+                    if (taskList[j].taskID == taskID) {
+                        taskList[j].status = 2;
+                        taskList[j].complete = true;
+                        return;
+                    }
+                }
+            }
+        }
     }
 }

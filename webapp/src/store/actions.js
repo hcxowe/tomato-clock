@@ -98,5 +98,19 @@ export default {
                 resolve();
             })
         })
+    },
+
+    [types.FINISHTASK]: ({ commit }, { taskID }) => {
+        return new Promise((resolve, reject) => {
+            api.finishTask(taskID, ({ ret, message }) => {
+                if (ret != 0) {
+                    reject(message);
+                    return;
+                }
+
+                commit(types.FINISHTASK, { taskID });
+                resolve();
+            })
+        })
     }
 }

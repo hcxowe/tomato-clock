@@ -7,7 +7,7 @@
                 <li v-for="task in unfinishList">
                     <button @click="onBackoutTask(task.taskID)" class="btn btn-danger">撤销</button>
                     <a href="javacript:void(0);">{{ task.description }}</a>
-                    <button class="btn btn-success pull-right">完成</button>
+                    <button @click="onFinishTask(task.taskID)" class="btn btn-success pull-right">完成</button>
                 </li>
             </ul>
             <ul v-if="type == 'finish'">
@@ -76,6 +76,10 @@
         methods: {
             onBackoutTask: function(taskID) {
                 this.$store.dispatch(types.BACKOUTTASK, { taskID });
+            },
+
+            onFinishTask: function(taskID) {
+                this.$store.dispatch(types.FINISHTASK, { taskID });
             }
         }
     }
@@ -136,6 +140,7 @@
 
         .text-finish {
             text-decoration: line-through;
+            width: 100%;
         }
     }
 
@@ -144,6 +149,7 @@
         left: 0; right: 0; bottom: 0;
         height: 40px;
         border-top: 1px solid #ccc;
+        cursor: default;
 
         span {
             float: left;

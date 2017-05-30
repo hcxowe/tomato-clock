@@ -222,3 +222,10 @@ export const backoutTask = (taskID, callback) => {
         message: 'success'
     });
 }
+
+export const finishTask = (taskID, callback) => {
+    callback({
+        ret: 0,
+        message: 'success'
+    });
+}
