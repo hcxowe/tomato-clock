@@ -10,7 +10,7 @@
             <div class="buttons-container">
                 <button class="btn-start" v-show="!isStart" @click="onStart">开始</button>
                 <button class="btn-break" v-show="isStart" @click="onBreak">打断</button>
-                <button class="btn-cancle" v-show="isStart" @click="onBreak">取消</button>
+                <!--<button class="btn-cancle" v-show="isStart" @click="onBreak">取消</button>-->
             </div>
         </div>
 
@@ -157,7 +157,7 @@
 
             .btn-break {
                 width: 100%;
-                height: 50%;
+                height: 100%;
 
                 padding: 0px;
                 font-size: 14px;           
