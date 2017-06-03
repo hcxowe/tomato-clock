@@ -41,7 +41,8 @@ export const userList = [
                         status: 0, // 0未开始，1处理中，2完成
                         createTime: '2017-05-01 10:10:10',
                         handleTime: '',
-                        finishTime: ''
+                        finishTime: '',
+                        potomaTime: []
                     }
                 ]
             },
@@ -55,7 +56,8 @@ export const userList = [
                         status: 2,
                         createTime: '2017-05-01 10:10:10',
                         handleTime: '2017-05-02 15:10:10',
-                        finishTime: '2017-05-02 16:10:10'
+                        finishTime: '2017-05-02 16:10:10',
+                        potomaTime: []
                     },
                     {
                         taskID: '111111-2',
@@ -89,7 +91,8 @@ export const userList = [
                         status: 0,
                         createTime: '2017-05-21 10:10:10',
                         handleTime: '',
-                        finishTime: ''
+                        finishTime: '',
+                        potomaTime: []
                     }
                 ]
             }
