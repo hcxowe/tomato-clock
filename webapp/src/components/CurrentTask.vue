@@ -10,7 +10,6 @@
             <div class="buttons-container">
                 <button class="btn-start" v-show="!isStart" @click="onStart">开始</button>
                 <button class="btn-break" v-show="isStart" @click="onBreak">打断</button>
-                <!--<button class="btn-cancle" v-show="isStart" @click="onBreak">取消</button>-->
             </div>
         </div>
 
@@ -39,13 +38,21 @@
 </template>
 
 <script>
+    import * as types from '../store/types.js'
+    import moment from 'moment'
+
     export default {
         name: 'CurrentTask',
         data () {
             return {
                 isStart: false,
                 countTime: 1500,
-                timer: null
+                timer: null,
+                year: '',
+                month: '',
+                day: '',
+                startTime: '',
+                endTime: ''
             }
         },
         computed: {
@@ -72,23 +79,51 @@
         methods: {
             onStart: function() {
                 this.isStart = !this.isStart;
+                this.startInit();
                 this.timer = setInterval(() => {
                     if (this.countTime <=0) {
                         this.initStatus();
+                        this.finishPomato(1);
                         return;
                     }
 
                     this.countTime -= 1;
                 }, 1000);
+
+                this.$store.commit(types.EXCUTINGPOMATO);                
             },
             onBreak: function() {
                 this.initStatus();
+                this.finishPomato(0);
             },
             initStatus: function() {
                 clearInterval(this.timer);
                 this.countTime = 1500;
                 this.isStart = false;
                 this.timer = null;
+            },
+            startInit: function() {
+                var now = moment();
+                this.year = '' + now.year();
+                this.month = now.month() + 1 + '';
+                this.day = '' + now.date();
+                this.startTime = '' + now.hour() + ':' + now.minute() + ':' + now.second();
+            },
+            finishPomato: function(status) {
+                var now = moment();
+                this.endTime = '' + now.hour() + ':' + now.minute() + ':' + now.second();
+
+                this.$store.dispatch(types.FINISHPOMATO, {
+                    taskID: this.currentTask.taskID,
+                    pomato: {
+                        year: this.year,
+                        month: this.month,
+                        day: this.day,
+                        startTime: this.startTime,
+                        endTime: this.endTime,
+                        status: status
+                    }
+                });
             }
         }
     }

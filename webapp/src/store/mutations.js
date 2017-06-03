@@ -77,5 +77,25 @@ export default {
 
     [types.SELECTTASK]: (state, task) => {
         state.userInfo.currentTask = _.defaultsDeep({}, task);
+    },
+
+    [types.EXCUTINGPOMATO]: (state) => {
+        state.userInfo.isExecuting = true;
+    },
+
+    [types.FINISHPOMATO]: (state, { taskID, pomato }) => {
+        var taskList = null;
+        for (let i=0,len=state.userInfo.activity.length; i<len; i++) {
+            taskList = state.userInfo.activity[i].taskList;
+            if (typeof taskList != 'undefined') {
+                for (let j=0, size=taskList.length; j<size; j++) {
+                    if (taskList[j].taskID == taskID) {
+                        taskList[j].potomaTime.push(_.defaults({}, pomato));
+                        state.userInfo.currentTask.potomaTime.push(_.defaults({}, pomato));
+                        return;
+                    }
+                }
+            }
+        }
     }
 }

@@ -229,3 +229,10 @@ export const finishTask = (taskID, callback) => {
         message: 'success'
     });
 }
+
+export const finishPomato = (taskID, pomato, callback) => {
+    callback({
+        ret: 0,
+        message: 'success'
+    });
+}

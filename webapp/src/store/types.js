@@ -7,3 +7,6 @@ export const EXCUTETASK = 'excutetask';
 export const BACKOUTTASK = 'backouttask';
 export const FINISHTASK = 'finishtask';
 export const SELECTTASK    = 'selecttask';
+export const EXCUTINGPOMATO = 'excutingpomato';
+export const FINISHPOMATO = 'finishpomato';
+export const BREAKPOMATO = 'breakpomato';

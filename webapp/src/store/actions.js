@@ -112,5 +112,19 @@ export default {
                 resolve();
             })
         })
-    }
+    },
+
+    [types.FINISHPOMATO]: ({ commit }, { taskID, pomato }) => {
+        return new Promise((resolve, reject) => {
+            api.finishPomato(taskID, pomato, ({ ret, message }) => {
+                if (ret != 0) {
+                    reject(message);
+                    return;
+                }
+
+                commit(types.FINISHPOMATO, { taskID, pomato });
+                resolve();
+            })
+        })
+    }    
 }
