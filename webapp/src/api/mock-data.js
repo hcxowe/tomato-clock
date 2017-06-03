@@ -16,7 +16,7 @@ export const userList = [
                         createTime: '2017-05-01 10:10:10',
                         handleTime: '2017-05-02 10:15:10',
                         finishTime: '',
-                        potomaTima: [
+                        potomaTime: [
                             {
                                 year: '2017',
                                 mouth: '05',
@@ -64,7 +64,7 @@ export const userList = [
                         createTime: '2017-05-01 10:10:10',
                         handleTime: '2017-05-12 15:10:10',
                         finishTime: '',
-                        potomaTima: [
+                        potomaTime: [
                             {
                                 year: '2017',
                                 mouth: '05',

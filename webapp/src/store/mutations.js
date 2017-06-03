@@ -73,5 +73,9 @@ export default {
                 }
             }
         }
+    },
+
+    [types.SELECTTASK]: (state, task) => {
+        state.userInfo.currentTask = _.defaultsDeep({}, task);
     }
 }

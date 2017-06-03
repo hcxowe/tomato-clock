@@ -2,7 +2,7 @@
     <div class="wrap">
         <p class="current-title">当前任务</p>
 
-        <div class="clock-container">
+        <div class="clock-container" v-show="currentTask.taskID">
             <div class="count-down-container">
                 <span class="clock">{{ countTimeStr }}</span>
                 <span class="count-down-slider" :style="{ width: (1500 - countTime) / 15 + '%' }"></span>
@@ -16,7 +16,7 @@
 
         <div class="record-container">
             <ul>
-                <li v-for="item in potomaList">
+                <li v-for="item in currentTask.potomaTime">
                     <p class="year-month">
                         {{ item.year }}年
                         <br>
@@ -32,7 +32,7 @@
 
         <div class="statistics-container">
             <p>
-                总计 <span class="total">{{ potomaList.length }}</span> 个番茄钟, 完成 <span class="finish"> {{ finishCount }} </span> 个, 打断 <span class="break"> {{ breakCount }} </span> 个 
+                总计 <span class="total">{{ currentTask.potomaTime.length }}</span> 个番茄钟, 完成 <span class="finish"> {{ finishCount }} </span> 个, 打断 <span class="break"> {{ breakCount }} </span> 个 
             </p>
         </div>
     </div>
@@ -45,28 +45,13 @@
             return {
                 isStart: false,
                 countTime: 1500,
-                timer: null,
-                potomaList: [
-                    {
-                        year: '2017',
-                        month: '05',
-                        day: '22',
-                        startTime: '17:25',
-                        endTime: '17:50',
-                        status: 1 // 1完成 or 0打断
-                    },
-                    {
-                        year: '2017',
-                        month: '05',
-                        day: '22',
-                        startTime: '16:25',
-                        endTime: '16:50',
-                        status: 0 // 1完成 or 0打断
-                    }
-                ]
+                timer: null
             }
         },
         computed: {
+            currentTask: function() {
+                return this.$store.state.userInfo.currentTask;
+            },
             countTimeStr: function() {
                 var m = Math.floor(this.countTime / 60);
                 var s = this.countTime % 60;
@@ -74,12 +59,12 @@
                 return (m < 10 ? ('0' + m) : m) + ':' + (s < 10 ? ('0' + s) : s);
             },
             finishCount: function() {
-                return this.potomaList.filter(function(value) {
+                return this.currentTask.potomaTime.filter(function(value) {
                     return value.status === 1;
                 }).length;
             },
             breakCount: function() {
-                return this.potomaList.filter(function(value) {
+                return this.currentTask.potomaTime.filter(function(value) {
                     return value.status === 0;
                 }).length;
             }

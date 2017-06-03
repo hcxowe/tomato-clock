@@ -12,7 +12,9 @@ const state = {
         userID: 0,
         userName: 'hcxowe',
         email: 'hcxowe@126.com',
-        activity: []
+        activity: [],
+        currentTask: { potomaList: [] },
+        isExecuting: false
     }
 }
 

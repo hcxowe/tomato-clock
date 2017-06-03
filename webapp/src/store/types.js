@@ -6,3 +6,4 @@ export const ADDTASK = 'addtask';
 export const EXCUTETASK = 'excutetask';
 export const BACKOUTTASK = 'backouttask';
 export const FINISHTASK = 'finishtask';
+export const SELECTTASK    = 'selecttask';

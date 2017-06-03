@@ -4,10 +4,10 @@
 
         <div class="today-list">
             <ul v-show="type == 'unfinished'">
-                <li v-for="task in unfinishList">
-                    <button @click="onBackoutTask(task.taskID)" class="btn btn-danger">撤销</button>
+                <li v-for="task in unfinishList" @click="onTaskClick(task)" :class="{ 'task-active': selTaskID === task.taskID }">
+                    <button @click.stop="onBackoutTask(task.taskID)" class="btn btn-danger">撤销</button>
                     <a href="javacript:void(0);">{{ task.description }}</a>
-                    <button @click="onFinishTask(task.taskID)" class="btn btn-success pull-right">完成</button>
+                    <button @click.stop="onFinishTask(task.taskID)" class="btn btn-success pull-right">完成</button>
                 </li>
             </ul>
             <ul v-if="type == 'finish'">
@@ -29,7 +29,8 @@
         name: 'TodayTask',
         data () {
             return {
-                type: 'unfinished' 
+                type: 'unfinished',
+                selTaskID: null
             }
         },
         computed: {
@@ -80,6 +81,15 @@
 
             onFinishTask: function(taskID) {
                 this.$store.dispatch(types.FINISHTASK, { taskID });
+            },
+            onTaskClick: function(task) {
+                if (this.$store.state.isExecuting) {
+                    alert('正在执行番茄钟, 请勿三心二意!');
+                    return;
+                }
+
+                this.selTaskID = task.taskID;
+                this.$store.commit(types.SELECTTASK, task);
             }
         }
     }
@@ -99,6 +109,10 @@
         font-size: 18px;
         border-bottom: 1px solid #ccc;
         margin: 0;
+    }
+
+    .task-active {
+        background-color: #E6E6E6;
     }
 
     .today-list {
