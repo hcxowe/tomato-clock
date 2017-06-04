@@ -107,11 +107,12 @@
                 this.year = '' + now.year();
                 this.month = now.month() + 1 + '';
                 this.day = '' + now.date();
-                this.startTime = '' + now.hour() + ':' + now.minute() + ':' + now.second();
+
+                this.startTime = '' + (now.hour() > 9 ? now.hour() : ('0' + now.hour())) + ':' + (now.minute() > 9 ? now.minute() : ('0' + now.minute())) + ':' + (now.second() > 9 ? now.second() : ('0' + now.second()));
             },
             finishPomato: function(status) {
                 var now = moment();
-                this.endTime = '' + now.hour() + ':' + now.minute() + ':' + now.second();
+                this.endTime = '' + (now.hour() > 9 ? now.hour() : ('0' + now.hour())) + ':' + (now.minute() > 9 ? now.minute() : ('0' + now.minute())) + ':' + (now.second() > 9 ? now.second() : ('0' + now.second()));
 
                 this.$store.dispatch(types.FINISHPOMATO, {
                     taskID: this.currentTask.taskID,
