@@ -91,7 +91,7 @@ export default {
                 for (let j=0, size=taskList.length; j<size; j++) {
                     if (taskList[j].taskID == taskID) {
                         taskList[j].potomaTime.push(_.defaults({}, pomato));
-                        state.userInfo.currentTask.potomaTime.push(_.defaults({}, pomato));
+                        state.userInfo.currentTask.potomaTime.unshift(_.defaults({}, pomato));
                         return;
                     }
                 }
