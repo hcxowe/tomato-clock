@@ -76,14 +76,24 @@
 
         methods: {
             onBackoutTask: function(taskID) {
+                if (this.$store.state.userInfo.isExecuting) {
+                    alert('正在执行番茄钟, 请勿三心二意!');
+                    return;
+                }
+                
                 this.$store.dispatch(types.BACKOUTTASK, { taskID });
             },
 
             onFinishTask: function(taskID) {
+                if (this.$store.state.userInfo.isExecuting) {
+                    alert('正在执行番茄钟, 请勿三心二意!');
+                    return;
+                }
+
                 this.$store.dispatch(types.FINISHTASK, { taskID });
             },
             onTaskClick: function(task) {
-                if (this.$store.state.isExecuting) {
+                if (this.$store.state.userInfo.isExecuting) {
                     alert('正在执行番茄钟, 请勿三心二意!');
                     return;
                 }

@@ -92,6 +92,7 @@ export default {
                     if (taskList[j].taskID == taskID) {
                         taskList[j].potomaTime.push(_.defaults({}, pomato));
                         state.userInfo.currentTask.potomaTime.unshift(_.defaults({}, pomato));
+                        state.userInfo.isExecuting = false;
                         return;
                     }
                 }
