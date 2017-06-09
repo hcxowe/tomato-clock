@@ -1,7 +1,7 @@
 <template>
     <div class="wrap">
         <div class="header">
-            <a href="#" class="header-title">番茄时间管理</a>
+            <a href="/" class="header-title">番茄时间管理</a>
 
             <div class="pull-right">
                 <a href="#" class="header-user"></a>

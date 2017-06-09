@@ -31,8 +31,8 @@
         name: 'AccountLogin',
         data () {
             return {
-                email: '',
-                password: '',
+                email: 'hcxowe@126.com',
+                password: '111111',
                 isLoging: false,
                 isError: false,
                 errorMsg: ''

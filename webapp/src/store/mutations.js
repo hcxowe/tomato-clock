@@ -3,7 +3,9 @@ import _ from 'lodash'
 
 export default {
     [types.LOGINUSER]: (state, data) => {
-        state.userInfo = data;
+        state.userInfo.email = data.email;
+        state.userInfo.userID = data.userID;
+        state.userInfo.userName = data.userName;
     },
 
     [types.GETACTIVITYLIST]: (state, data) => {
