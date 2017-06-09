@@ -190,11 +190,12 @@ export const addTask = (userID, projectID, description, callback) => {
 
         let task = {
             taskID: moment().format('x'),
+            status: 0,
             description: description,
             createTime: moment().format('YYYY-MM-DD hh:mm:ss'),
             handleTime: '',
             finishTime: '',
-            potomaTima: []
+            potomaTime: []
         }
 
         taskList.push(task);
