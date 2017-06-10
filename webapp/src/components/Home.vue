@@ -7,13 +7,13 @@
                 <img class="logo" src="/static/logo.png"> 番茄时间管理
             </a>
 
-            <button class="pull-right">马上开启</button>
+            <button class="pull-right" @click="onStart">马上开启</button>
         </div>
 
         <div class="purport-warp">
             <p>一次只做一件事</p>
             <p>想做到专注，你就必须坚决抛开各种杂念</p>
-            <button class="btn-Start">马上开启</button>
+            <button class="btn-Start" @click="onStart">马上开启</button>
         </div>
 
         <div class="question-wrap">
@@ -55,7 +55,7 @@
 
         <div class="join-wrap">
             <p>现在就加入, 开始高效的完成工作吧 !</p>
-            <button class="btn-Start">马上开启</button>
+            <button class="btn-Start" @click="onStart">马上开启</button>
         </div>
 
         <div class="foolter">
@@ -66,7 +66,12 @@
 
 <script>
     export default {
-        name: 'Home'
+        name: 'Home',
+        methods: {
+            onStart: function() {
+                this.$router.push({ name: 'AccountLogin' });
+            }
+        }
     }
 </script>
 
