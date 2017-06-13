@@ -1,17 +1,20 @@
 var express         = require('express');
 var path            = require('path');
 var history         = require('connect-history-api-fallback');
+var bodyParser      = require('body-parser');
 var cookieParser    = require('cookie-parser');
 var session         = require('express-session');
 var MongoStore      = require('connect-mongo')(session);
+
 var getRandomStr    = require('./public');
+var users           = require('./routes/users');
 
 var app = express();
 
 app.use(express.static(path.join(__dirname, '../dist')));
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
 app.use(session({
     name: 'SESSION',
     store: new MongoStore({
@@ -20,9 +23,11 @@ app.use(session({
     }),
     secret: getRandomStr(128, true, true, false),
     cookie: {
-        maxAge: 60 * 1000 * 5
+        maxAge: 1 * 60 * 1000
     }
 }));
+
+app.use('/user', users);
 
 app.use(history({
     index: '/index.html', // 默认首页
@@ -33,25 +38,14 @@ app.use(history({
     htmlAcceptHeaders: ['text/html', '*/*']
 }));
 
-app.get('/', (req, res, next) => {
-    if (req.cookies.isVisit) {
-        console.log(req.cookies);
-    }
-    else {
-        res.cookie('isVisit', 1, { maxAge: 60 * 1000 });
-    }
+// 404
+app.use(function(req, res, next) {
+   
+});
 
-    if(req.session.isVisit) {
-        req.session.isVisit++;
-        res.send('<p>第 ' + req.session.isVisit + '次来此页面</p>');
-    } 
-    else {
-        req.session.isVisit = 1;
-        res.send("欢迎第一次来这里");
-        console.log(req.session);
-    }
-
-    next();
+// 500
+app.use(function(err, req, res, next) {
+    
 });
 
 app.listen(3124, 'localhost', function() {
