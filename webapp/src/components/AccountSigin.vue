@@ -55,6 +55,10 @@
 
                     if (ret.body.code != 0) {
                         alert('创建失败: ' + ret.body.msg);
+
+                        if (1101 == ret.body.code) {
+                            self.$router.replace({ name: 'AccountLogin' });    
+                        }
                     }
                     else {
                         alert('创建成功');
