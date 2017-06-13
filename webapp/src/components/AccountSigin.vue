@@ -35,9 +35,9 @@
         name: 'AccountSigin',
         data () {
             return {
-                userName: '',
-                email: '',
-                password: '',
+                userName: 'hcxowe',
+                email: 'hcxowe@126.com',
+                password: '111111',
                 isSiging: false
             }
         },
@@ -45,19 +45,39 @@
             siginUser: function() {
                 var self = this;
                 this.isSiging = true;
-                this.$store.dispatch(types.SIGINUSER, { 
-                    userName: this.userName, 
-                    email: this.email, 
-                    password: this.password
-                }).then(() => {
-                    alert('创建成功');
-                    self.$router.replace({ name: 'AccountLogin' });
+
+                this.$http.post('/user/signin', {
+                    userName: this.userName,
+                    email: this.email,
+                    passWD: this.password
+                }).then((ret) => {
                     self.isSiging = false;
-                }, (msg) => {
-                    alert(msg);
-                    self.$router.replace({ name: 'AccountLogin' });
+
+                    if (ret.body.code != 0) {
+                        alert('创建失败: ' + ret.body.msg);
+                    }
+                    else {
+                        alert('创建成功');
+                        self.$router.replace({ name: 'AccountLogin' });
+                    }
+                }, (err) => {
+                    alert('创建失败');
                     self.isSiging = false;
-                })
+                });
+
+                // this.$store.dispatch(types.SIGINUSER, { 
+                //     userName: this.userName, 
+                //     email: this.email, 
+                //     password: this.password
+                // }).then(() => {
+                //     alert('创建成功');
+                //     self.$router.replace({ name: 'AccountLogin' });
+                //     self.isSiging = false;
+                // }, (msg) => {
+                //     alert(msg);
+                //     self.$router.replace({ name: 'AccountLogin' });
+                //     self.isSiging = false;
+                // })
             }
         }
     }

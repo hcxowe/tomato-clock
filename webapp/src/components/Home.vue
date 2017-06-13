@@ -69,7 +69,16 @@
         name: 'Home',
         methods: {
             onStart: function() {
-                this.$router.push({ name: 'AccountLogin' });
+                this.$http.get('/user').then((ret) => {
+                    if (ret.body.ret == 404) {
+                        this.$router.push({ name: 'AccountLogin' });
+                    }
+                    else if (ret.body.ret == 200) {
+                        this.$router.push({ name: 'TomatoHome' });    
+                    }
+                }, (err) => {
+                    this.$router.push({ name: 'AccountLogin' });
+                });
             }
         }
     }
