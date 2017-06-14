@@ -23,7 +23,7 @@ app.use(session({
     }),
     secret: getRandomStr(128, true, true, false),
     cookie: {
-        maxAge: 1 * 60 * 1000
+        maxAge: 10 * 60 * 1000
     }
 }));
 

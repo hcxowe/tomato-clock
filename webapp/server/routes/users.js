@@ -12,15 +12,32 @@ router.get('/', (req, res, next) => {
     else {
         res.json({
 			'ret': 200,
-			'msg': '用户已登录'
+			'msg': '用户已登录',
+			'body':  {
+				userID: req.session.userID,
+				userName: req.session.userName,
+				email: req.session.email
+			}
 		});
     }
 });
 
 router.post('/login', (req, res, next) => {
-	res.json({
-		'ret': 200,
-		'msg': '验证成功'
+	model.login(req.body.email, req.body.passWD, (err, user) => {
+		if (err) {
+			res.json(err);
+		}
+		else {
+			req.session.userName = user.userName;
+			req.session.userID = user.userID;
+			req.session.email = user.email;
+
+			res.json({ 'code': 200, 'msg': 'success', body: { 
+				userName: user.userName,
+				email: user.email,
+				userID: user.userID
+			}});
+		}
 	});
 });
 

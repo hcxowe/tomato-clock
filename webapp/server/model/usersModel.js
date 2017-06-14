@@ -17,7 +17,7 @@ function signin(userName, email, passWD, callback) {
                 reject({ code: 1001, msg: '数据查询失败' });
                 return;
             }
-            else if (user || (user.length == 0)) {
+            else if (user && (user.length != 0)) {
                 reject({ code: 1101, msg: '邮箱已注册' });
                 return;
             }
@@ -47,6 +47,33 @@ function signin(userName, email, passWD, callback) {
     });
 }
 
+function login(email, passWD, callback) {
+    new Promise((resolve, reject) => {
+        UserInfo.find({ email: email }, (err, user) => {
+            if (err) {
+                reject({ code: 1001, msg: '数据查询失败' });
+                return;
+            }
+            else if (!user || (user.length == 0)) {
+                reject({ code: 1102, msg: '账号不存在' });
+                return;
+            }
+
+            if (user[0].passWD == passWD) {
+                resolve(user[0]);
+            }
+            else {
+                reject({ code: 1103, msg: '密码不正确' });
+            }
+        });
+    }).then((user) => {
+        callback(null, user);
+    }, (retData) => {
+        callback(retData);
+    });
+}
+
 module.exports = {
-    signin
+    signin,
+    login
 };
