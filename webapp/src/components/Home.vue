@@ -65,6 +65,8 @@
 </template>
 
 <script>
+    import * as types from '../store/types.js'
+
     export default {
         name: 'Home',
         methods: {
@@ -74,6 +76,7 @@
                         this.$router.push({ name: 'AccountLogin' });
                     }
                     else if (ret.body.ret == 200) {
+                        this.$store.commit(types.LOGINUSER, ret.body);
                         this.$router.push({ name: 'TomatoHome' });    
                     }
                 }, (err) => {
