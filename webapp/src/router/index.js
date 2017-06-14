@@ -4,12 +4,17 @@ import Home from '@/components/Home'
 import AccountLogin from '@/components/AccountLogin'
 import AccountSigin from '@/components/AccountSigin'
 import TomatoHome from '@/components/TomatoHome'
+import NotFind from '@/components/NotFind'
 
 Vue.use(Router)
 
 export default new Router({
 	mode: 'history',
 	routes: [
+		{ 
+			path: '*', 
+			component: NotFind
+		},
 		{
 			path: '/',
 			name: 'Home',
@@ -30,5 +35,9 @@ export default new Router({
 			name: 'TomatoHome',
 			component: TomatoHome
 		},
+		{
+			path: '*',
+
+		}
 	]
 })
