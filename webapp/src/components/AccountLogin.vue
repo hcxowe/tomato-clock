@@ -47,17 +47,36 @@
                 this.isLoging = true;
 
                 var self = this;
-                this.$store.dispatch(types.LOGINUSER, {
-                    email: this.email,
-                    password: this.password
-                }).then(() => {
-                    self.$router.replace({ name: 'TomatoHome' });
+                this.$http.post('/user/login', { email: this.email, passWD: this.password }).then((ret) => {
                     this.isLoging = false;
-                }, (msg) => {
-                    self.errorMsg = msg;
-                    self.isError = true;
-                    this.isLoging = false;
+                    
+                    console.log(ret);
+
+                    if (ret.body.code == 200) {
+                        this.$store.commit(types.LOGINUSER, ret.body.body);
+                        this.$router.replace({ name: 'TomatoHome' });
+                        return;
+                    }
+                    else {
+                        this.errorMsg = ret.body.msg;
+                        this.isError  = true;
+                    }
+                }, (err) => {
+                    this.errorMsg = '网络请求失败';
+                    this.isError  = true;
                 });
+
+                // this.$store.dispatch(types.LOGINUSER, {
+                //     email: this.email,
+                //     password: this.password
+                // }).then(() => {
+                //     self.$router.replace({ name: 'TomatoHome' });
+                //     this.isLoging = false;
+                // }, (msg) => {
+                //     self.errorMsg = msg;
+                //     self.isError = true;
+                //     this.isLoging = false;
+                // });
             },
             onInput: function() {
                 this.isError = false;
