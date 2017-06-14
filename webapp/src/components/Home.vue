@@ -71,7 +71,7 @@
         name: 'Home',
         methods: {
             onStart: function() {
-                this.$http.get('/user').then((ret) => {
+                this.$http.get('/api/user').then((ret) => {
                     if (ret.body.ret == 404) {
                         this.$router.push({ name: 'AccountLogin' });
                     }

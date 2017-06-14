@@ -47,7 +47,7 @@
                 this.isLoging = true;
 
                 var self = this;
-                this.$http.post('/user/login', { email: this.email, passWD: this.password }).then((ret) => {
+                this.$http.post('/api/user/login', { email: this.email, passWD: this.password }).then((ret) => {
                     this.isLoging = false;
                     
                     console.log(ret);

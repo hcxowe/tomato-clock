@@ -46,7 +46,7 @@
                 var self = this;
                 this.isSiging = true;
 
-                this.$http.post('/user/signin', {
+                this.$http.post('/api/user/signin', {
                     userName: this.userName,
                     email: this.email,
                     passWD: this.password
