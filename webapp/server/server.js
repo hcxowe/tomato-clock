@@ -27,7 +27,7 @@ app.use(session({
     }
 }));
 
-app.use('/user', users);
+app.use('/api/user', users);
 
 app.use(history({
     index: '/index.html', // 默认首页
@@ -40,12 +40,12 @@ app.use(history({
 
 // 404
 app.use(function(req, res, next) {
-   
+    res.sendfile(path.join(__dirname, '../dist/index.html'));
 });
 
 // 500
 app.use(function(err, req, res, next) {
-    
+    console.log(err);
 });
 
 app.listen(3124, 'localhost', function() {
