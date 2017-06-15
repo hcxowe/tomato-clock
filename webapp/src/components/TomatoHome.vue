@@ -45,10 +45,24 @@
             CurrentTask
         },
         created: function() {
-            this.$store.dispatch(types.GETACTIVITYLIST, { userID: this.$store.state.userInfo.userID }).then(()=>{
-            }, (msg) => {
-                alert(msg);
-            });
+            // 先确定session是否过期
+            this.$http.get('/api/user').then((ret) => {
+                if (ret.body.ret == 404) {
+                    this.$router.push({ name: 'AccountLogin' });
+                    return;
+                }
+                else if (ret.body.ret == 200) {
+                    this.$store.commit(types.LOGINUSER, ret.body);
+
+                    this.$store.dispatch(types.GETACTIVITYLIST, { userID: this.$store.state.userInfo.userID }).then(()=>{
+                    
+                    }, (msg) => {
+                        alert(msg);
+                    });
+                }
+            }, (err) => {
+                this.$router.push({ name: 'AccountLogin' });
+            }); 
         }
     }
 </script>
