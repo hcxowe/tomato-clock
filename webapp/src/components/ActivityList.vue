@@ -60,10 +60,16 @@
                     return;
                 }
 
-                this.$store.dispatch(types.ADDPROJECT, { userID: this.$store.state.userInfo.userID, description: value }).then(() => {
+                this.$http.post('/api/activity/addProject', { userID: this.$store.state.userInfo.userID, description: value }).then((ret) => {
+                    if (ret.body.code != 200) {
+                        console.error(ret.body.msg);
+                        return;
+                    }
+
+                    this.$store.commit(types.ADDPROJECT, ret.body.body);
                     evt.target.value = '';
-                }, (msg) => {
-                    alert(msg);
+                }, (err) => {
+                    console.error(err);
                 });
             },
             onTaskCreate: function(evt, projectID) {

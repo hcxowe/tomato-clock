@@ -52,12 +52,18 @@
                     return;
                 }
                 else if (ret.body.ret == 200) {
-                    this.$store.commit(types.LOGINUSER, ret.body);
+                    this.$store.commit(types.LOGINUSER, ret.body.body);
 
-                    this.$store.dispatch(types.GETACTIVITYLIST, { userID: this.$store.state.userInfo.userID }).then(()=>{
-                    
-                    }, (msg) => {
-                        alert(msg);
+                    this.$http.get('/api/activity', { params: { userID: ret.body.body.userID }}).then((ret) => {
+                        if (ret.body.code != 200) {
+                            console.error('获取活动清单失败');
+                            return;
+                        }
+
+                        this.$store.commit(types.GETACTIVITYLIST, ret.body.body);
+                    }, (err) => { 
+                        console.error('获取活动清单失败');
+                        return;
                     });
                 }
             }, (err) => {
