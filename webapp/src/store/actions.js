@@ -58,7 +58,6 @@ export default {
     },
 
     [types.ADDTASK]: ({ commit }, { userID, projectID, description }) => {
-        
         return new Promise((resolve, reject) => {
             api.addTask(userID, projectID, description, ({ ret, message, body }) => {
                 if (ret != 0) {

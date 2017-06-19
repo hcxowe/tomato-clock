@@ -79,16 +79,47 @@
                     return;
                 }
 
-                this.$store.dispatch(types.ADDTASK, { userID: this.$store.state.userInfo.userID, projectID, description: value }).then(() => {
+                this.$http.post('/api/activity/addTask', { 
+                    userID: this.$store.state.userInfo.userID, 
+                    projectID: projectID,
+                    description: value 
+                }).then((ret) => {
+                    if (ret.body.code != 200) {
+                        console.error(ret.body.msg);
+                        return;
+                    }
+
+                    this.$store.commit(types.ADDTASK, {
+                        projectID: projectID,
+                        task: ret.body.body
+                    });
+
                     evt.target.value = '';
-                    evt.target.parentNode.style.height = 'auto';
-                }, (msg) => {
-                    alert(msg);
+                }, (err) => {
+                    console.error(err);
                 });
             },
             onExcuteTask: function(projectID, taskID) {
                 console.log(`projectID: ${projectID}, taskID: ${taskID}`);
-                this.$store.dispatch(types.EXCUTETASK, {projectID, taskID});
+
+                this.$http.post('/api/activity/excuteTask', { 
+                    userID: this.$store.state.userInfo.userID, 
+                    projectID: projectID,
+                    taskID: taskID
+                }).then((ret) => {
+                    if (ret.body.code != 200) {
+                        console.error(ret.body.msg);
+                        return;
+                    }
+
+                    this.$store.commit(types.EXCUTETASK, {
+                        projectID: projectID,
+                        taskID: taskID
+                    });
+                }, (err) => {
+                    console.error(err);
+                });
+                //this.$store.dispatch(types.EXCUTETASK, {projectID, taskID});
             }
         },
         components: {

@@ -5,9 +5,9 @@
         <div class="today-list">
             <ul v-show="type == 'unfinished'">
                 <li v-for="task in unfinishList" @click="onTaskClick(task)" :class="{ 'task-active': selTaskID === task.taskID }">
-                    <button @click.stop="onBackoutTask(task.taskID)" class="btn btn-danger">撤销</button>
+                    <button @click.stop="onBackoutTask(task.projectID, task.taskID)" class="btn btn-danger">撤销</button>
                     <a href="javacript:void(0);">{{ task.description }}</a>
-                    <button @click.stop="onFinishTask(task.taskID)" class="btn btn-success pull-right">完成</button>
+                    <button @click.stop="onFinishTask(task.projectID, task.taskID)" class="btn btn-success pull-right">完成</button>
                 </li>
             </ul>
             <ul v-if="type == 'finish'">
@@ -75,22 +75,58 @@
         },
 
         methods: {
-            onBackoutTask: function(taskID) {
+            onBackoutTask: function(projectID, taskID) {
                 if (this.$store.state.userInfo.isExecuting) {
                     alert('正在执行番茄钟, 请勿三心二意!');
                     return;
                 }
                 
-                this.$store.dispatch(types.BACKOUTTASK, { taskID });
+                this.$http.post('/api/activity/backoutTask', { 
+                    userID: this.$store.state.userInfo.userID, 
+                    projectID: projectID,
+                    taskID: taskID
+                }).then((ret) => {
+                    if (ret.body.code != 200) {
+                        console.error(ret.body.msg);
+                        return;
+                    }
+
+                    this.$store.commit(types.BACKOUTTASK, {
+                        projectID: projectID,
+                        taskID: taskID
+                    });
+                }, (err) => {
+                    console.error(err);
+                });
+
+                //this.$store.dispatch(types.BACKOUTTASK, { taskID });
             },
 
-            onFinishTask: function(taskID) {
+            onFinishTask: function(projectID, taskID) {
                 if (this.$store.state.userInfo.isExecuting) {
                     alert('正在执行番茄钟, 请勿三心二意!');
                     return;
                 }
 
-                this.$store.dispatch(types.FINISHTASK, { taskID });
+                this.$http.post('/api/activity/finishTask', { 
+                    userID: this.$store.state.userInfo.userID, 
+                    projectID: projectID,
+                    taskID: taskID
+                }).then((ret) => {
+                    if (ret.body.code != 200) {
+                        console.error(ret.body.msg);
+                        return;
+                    }
+
+                    this.$store.commit(types.FINISHTASK, {
+                        projectID: projectID,
+                        taskID: taskID
+                    });
+                }, (err) => {
+                    console.error(err);
+                });
+
+                //this.$store.dispatch(types.FINISHTASK, { taskID });
             },
             onTaskClick: function(task) {
                 if (this.$store.state.userInfo.isExecuting) {

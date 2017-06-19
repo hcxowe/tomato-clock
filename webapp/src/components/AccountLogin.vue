@@ -50,8 +50,6 @@
                 this.$http.post('/api/user/login', { email: this.email, passWD: this.password }).then((ret) => {
                     this.isLoging = false;
                     
-                    console.log(ret);
-
                     if (ret.body.code == 200) {
                         this.$store.commit(types.LOGINUSER, ret.body.body);
                         this.$router.replace({ name: 'TomatoHome' });
