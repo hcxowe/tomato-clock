@@ -90,7 +90,7 @@ function addProject(userID, description, callback) {
                             return;
                         }
 
-                        callback(null, { code: 200, msg: 'success', body: userActivity.activity[userActivity.activity.length -1] });
+                        callback(null, { code: 200, msg: 'success', body: userActivity.activity[userActivity.activity.length - 1] });
                     });
                 }
                 else {
@@ -101,7 +101,96 @@ function addProject(userID, description, callback) {
     })
 }
 
+function addTask(userID, projectID, description, callback) {
+    UserActivity.find({ userID: userID }, (err, userActivity) => {
+        if (err) {
+            callback({ code: 1001, msg: '数据查询失败' });
+            return;
+        }
+
+        if (userActivity.length == 0) {
+            callback({ code: 1211, msg: '未找到项目' });
+            return;
+        }
+
+        for (var i=0,len=userActivity[0].activity.length; i < len; i++) {
+            if (userActivity[0].activity[i].projectID == projectID) {
+                var task = {
+                    projectID: projectID,
+                    taskID: moment().format('x'),
+                    status: 0,
+                    description: description,
+                    createTime: moment().format('YYYY-MM-DD hh:mm:ss'),
+                    handleTime: '',
+                    finishTime: '',
+                    potomaTime: []
+                };
+
+                userActivity[0].activity[i].taskList.push(task);        
+                break;
+            }
+        }
+
+        userActivity[0].save((err, userActivity) => {
+            if (err) {
+                 callback({ code: 1002, msg: '数据写入失败' });
+                return;
+            }
+
+            callback(null, { code: 200, msg: 'success', body: task });
+        });
+    });
+}
+
+function operateTask(userID, projectID, taskID, status, callback) {
+    UserActivity.find({ userID: userID }, (err, userActivity) => {
+        if (err) {
+            callback({ code: 1001, msg: '数据查询失败' });
+            return;
+        }
+
+        if (userActivity.length == 0) {
+            callback({ code: 1211, msg: '未找到任务' });
+            return;
+        }
+
+        var found = false;
+        for (var i=0,len=userActivity[0].activity.length; i < len; i++) {
+            if (userActivity[0].activity[i].projectID == projectID) {
+                var taskList = userActivity[0].activity[i].taskList;
+                for(var j=0,size=taskList.length; j<size; j++) {
+                    if (taskList[j].taskID == taskID) {
+                        taskList[j].status = status;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found == true) {
+                    break;
+                }
+            }
+        }
+
+        if (found) {
+            userActivity[0].save((err, userActivity) => {
+                if (err) {
+                    callback({ code: 1002, msg: '数据写入失败' });
+                    return;
+                }
+
+                callback(null, { code: 200, msg: 'success' });
+            });
+        }
+        else {
+            callback({ code: 1211, msg: '未找到任务' });
+        }
+    });
+}
+
 module.exports = {
     getActivity,
-    addProject
+    addProject,
+    addTask,
+    operateTask
 };
