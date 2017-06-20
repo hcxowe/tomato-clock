@@ -1,21 +1,10 @@
-# webapp
+# 番茄时间管理
 
-> about tomato clock time management application
+> 技术涉及：vuejs全家桶 + express + mongodb
 
-## Build Setup
+## 如何运行项目
 
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+- npm install --- 安装依赖
+- npm run build --- 输出Vuejs生产环境文件目录
+- npm run server --- 运行node服务器
+- 浏览器访问 [http://localhost:3124](http://localhost:3124)
