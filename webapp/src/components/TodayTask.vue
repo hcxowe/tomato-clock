@@ -6,7 +6,7 @@
             <ul v-show="type == 'unfinished'">
                 <li v-for="task in unfinishList" @click="onTaskClick(task)" :class="{ 'task-active': selTaskID === task.taskID }">
                     <button @click.stop="onBackoutTask(task.projectID, task.taskID)" class="btn btn-danger">撤销</button>
-                    <a href="javacript:void(0);">{{ task.description }}</a>
+                    <a href="javascript:void(0);">{{ task.description }}</a>
                     <button @click.stop="onFinishTask(task.projectID, task.taskID)" class="btn btn-success pull-right">完成</button>
                 </li>
             </ul>

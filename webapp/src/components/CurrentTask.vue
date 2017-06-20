@@ -114,17 +114,47 @@
                 var now = moment();
                 this.endTime = '' + (now.hour() > 9 ? now.hour() : ('0' + now.hour())) + ':' + (now.minute() > 9 ? now.minute() : ('0' + now.minute())) + ':' + (now.second() > 9 ? now.second() : ('0' + now.second()));
 
-                this.$store.dispatch(types.FINISHPOMATO, {
+                var pomato = {
+                    year: this.year,
+                    month: this.month,
+                    day: this.day,
+                    startTime: this.startTime,
+                    endTime: this.endTime,
+                    status: status
+                };
+
+                console.log(pomato);
+
+                this.$http.post('/api/activity/finishTomato', { 
+                    userID: this.$store.state.userInfo.userID, 
+                    projectID: this.currentTask.projectID,
                     taskID: this.currentTask.taskID,
-                    pomato: {
-                        year: this.year,
-                        month: this.month,
-                        day: this.day,
-                        startTime: this.startTime,
-                        endTime: this.endTime,
-                        status: status
+                    pomato: pomato
+                }).then((ret) => {
+                    if (ret.body.code != 200) {
+                        console.error(ret.body.msg);
+                        return;
                     }
+
+                    this.$store.commit(types.FINISHPOMATO, {
+                        taskID: this.currentTask.taskID,
+                        pomato: pomato
+                    });
+                }, (err) => {
+                    console.error(err);
                 });
+
+                // this.$store.dispatch(types.FINISHPOMATO, {
+                //     taskID: this.currentTask.taskID,
+                //     pomato: {
+                //         year: this.year,
+                //         month: this.month,
+                //         day: this.day,
+                //         startTime: this.startTime,
+                //         endTime: this.endTime,
+                //         status: status
+                //     }
+                // });
             }
         }
     }

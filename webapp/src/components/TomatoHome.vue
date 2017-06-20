@@ -3,9 +3,9 @@
         <div class="header">
             <a href="/" class="header-title">番茄时间管理</a>
 
-            <div class="pull-right">
+            <!--<div class="pull-right">
                 <a href="#" class="header-user"></a>
-            </div>
+            </div>-->
         </div>
 
         <div class="tomato-container">
