@@ -17,8 +17,8 @@ var UserActivity = db.model('Useractivity', {
                 finishTime: String,
                 potomaTime: [
                     {
-                        years: String,
-                        mouth: String,
+                        year: String,
+                        month: String,
                         day: String,
                         startTime: String,
                         endTime: String,
@@ -66,7 +66,7 @@ function addProject(userID, description, callback) {
                     return;
                 }
 
-                callback(null, { code: 200, msg: 'success', body: userActivity.activity });
+                callback(null, { code: 200, msg: 'success', body: userActivity.activity[0] });
             });
         }
         else {
@@ -188,9 +188,56 @@ function operateTask(userID, projectID, taskID, status, callback) {
     });
 }
 
+function finishTomato(userID, projectID, taskID, task, callback) {
+    UserActivity.find({ userID: userID }, (err, userActivity) => {
+        if (err) {
+            callback({ code: 1001, msg: '数据查询失败' });
+            return;
+        }
+
+        if (userActivity.length == 0) {
+            callback({ code: 1211, msg: '未找到任务' });
+            return;
+        }
+
+        var found = false;
+        for (var i=0,len=userActivity[0].activity.length; i < len; i++) {
+            if (userActivity[0].activity[i].projectID == projectID) {
+                var taskList = userActivity[0].activity[i].taskList;
+                for(var j=0,size=taskList.length; j<size; j++) {
+                    if (taskList[j].taskID == taskID) {
+                        taskList[j].potomaTime.push(task);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found == true) {
+                    break;
+                }
+            }
+        }
+
+        if (found) {
+            userActivity[0].save((err, userActivity) => {
+                if (err) {
+                    callback({ code: 1002, msg: '数据写入失败' });
+                    return;
+                }
+
+                callback(null, { code: 200, msg: 'success' });
+            });
+        }
+        else {
+            callback({ code: 1211, msg: '未找到任务' });
+        }
+    });
+}
+
 module.exports = {
     getActivity,
     addProject,
     addTask,
-    operateTask
+    operateTask,
+    finishTomato
 };

@@ -68,4 +68,15 @@ router.post('/finishTask', (req, res, next) => {
     });
 });
 
+router.post('/finishTomato', (req, res, next) => {
+    model.finishTomato(req.body.userID, req.body.projectID, req.body.taskID, req.body.pomato, (err, ret) => {
+        if (err) {
+            res.json(err);
+        }
+        else {
+            res.json(ret);
+        }
+    });
+});
+
 module.exports = router;
