@@ -11,7 +11,9 @@
                 </li>
             </ul>
             <ul v-if="type == 'finish'">
-                <li v-for="task in finishList"><a class="text-finish" href="javacript:void(0);">{{ task.description }}</a></li>
+                <li v-for="task in finishList" @click="onTaskClick(task)" :class="{ 'task-active': selTaskID === task.taskID }">
+                    <a class="text-finish" href="javascript:void(0);">{{ task.description }}</a>
+                </li>
             </ul>
         </div>
 

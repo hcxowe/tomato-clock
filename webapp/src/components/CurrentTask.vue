@@ -2,7 +2,7 @@
     <div class="wrap">
         <p class="current-title">当前任务</p>
 
-        <div class="clock-container" v-show="currentTask.taskID">
+        <div class="clock-container" v-show="currentTask.taskID && currentTask.status!=2">
             <div class="count-down-container">
                 <span class="clock">{{ countTimeStr }}</span>
                 <span class="count-down-slider" :style="{ width: (1500 - countTime) / 15 + '%' }"></span>
@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="record-container">
+        <div class="record-container" :style="{ top: (currentTask.status!=2?'96px':'36px') }">
             <ul>
                 <li v-for="item in currentTask.potomaTime">
                     <p class="year-month">
