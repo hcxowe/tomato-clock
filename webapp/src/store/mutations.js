@@ -54,6 +54,7 @@ export default {
                 for (let j=0, size=taskList.length; j<size; j++) {
                     if (taskList[j].taskID == taskID) {
                         taskList[j].status = 0;
+                        state.userInfo.currentTask = { potomaTime: [] };
                         return;
                     }
                 }
@@ -70,6 +71,7 @@ export default {
                     if (taskList[j].taskID == taskID) {
                         taskList[j].status = 2;
                         taskList[j].complete = true;
+                        state.userInfo.currentTask = { potomaTime: [] };
                         return;
                     }
                 }
