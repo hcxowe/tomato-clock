@@ -206,7 +206,7 @@ function finishTomato(userID, projectID, taskID, task, callback) {
                 var taskList = userActivity[0].activity[i].taskList;
                 for(var j=0,size=taskList.length; j<size; j++) {
                     if (taskList[j].taskID == taskID) {
-                        taskList[j].potomaTime.push(task);
+                        taskList[j].potomaTime.unshift(task);
                         found = true;
                         break;
                     }
